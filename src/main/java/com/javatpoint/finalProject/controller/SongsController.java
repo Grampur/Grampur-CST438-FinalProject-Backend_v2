@@ -20,29 +20,29 @@ public class SongsController {
     SongsService songsService;
 
     @GetMapping("/song")
-    private List<Songs> getAllSongs() {
+	public List<Songs> getAllSongs() {
         return songsService.getAllSongs();
     }
 
     @GetMapping("/song/{songid}")
-    private Songs getSongs(@PathVariable("songid") int songid) {
+	public Songs getSongs(@PathVariable("songid") int songid) {
         return songsService.getSongsById(songid);
     }
 
     @DeleteMapping("/song/{songid}")
-    private void deleteSong(@PathVariable("songid") int songid) {
+    public void deleteSong(@PathVariable("songid") int songid) {
         songsService.delete(songid);
     }
 
     @PostMapping("/songs")
-    private int saveSong(@RequestBody Songs songs) {
+    public int saveSong(@RequestBody Songs songs) {
         songsService.saveOrUpdate(songs);
         System.out.println("CAN YOU WORK??");
         return songs.getSongid();
     }
 
     @PutMapping("/songs")
-    private Songs update(@RequestBody Songs songs) {
+    public Songs update(@RequestBody Songs songs) {
         songsService.saveOrUpdate(songs);
         return songs;
     }
