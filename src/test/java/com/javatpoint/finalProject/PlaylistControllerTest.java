@@ -1,4 +1,4 @@
-package com.javatpoint.finalProject; // Adjust the package name to match the controller's package
+package com.javatpoint.finalProject; 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javatpoint.finalProject.controller.PlaylistController;

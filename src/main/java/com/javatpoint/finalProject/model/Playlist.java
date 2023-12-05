@@ -1,9 +1,15 @@
 package com.javatpoint.finalProject.model;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import java.util.List;
 
 @Entity
 @Table
@@ -21,7 +27,23 @@ public class Playlist {
 
     @Column
     private int playlistSize;
-
+    
+    @OneToMany
+    @CollectionTable(name = "playlist_details", joinColumns = @JoinColumn(name = "playlistId"))
+    private List<Songs> songs;
+    
+    public void addSong(Songs song) {
+    	songs.add(song);
+    }
+    
+    public void deleteSong(Songs song) {
+    	songs.remove(song);
+    }
+    
+    public List<Songs> getAllSongs() {
+    	return songs;
+    }
+    
     public int getPlaylistId() {
         return playlistId;
     }
