@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javatpoint.finalProject.model.Playlist;
+import com.javatpoint.finalProject.model.Songs;
 import com.javatpoint.finalProject.service.PlaylistService;
 
 @RestController
@@ -45,6 +46,27 @@ public class PlaylistController {
     private Playlist update(@RequestBody Playlist playlist) {
         playlistService.saveOrUpdate(playlist);
         return playlist;
+    }
+    
+    //POST /playlist/{playlistID}/song/{songid}
+    @PostMapping("/playlist/{playlistId}/song/{songId}")
+    private Playlist addSongtoPlaylist(@PathVariable("playlistId") int playlistId, @PathVariable("songId") int songId) {
+    	
+    	return playlistService.addingSongtoPlaylist(playlistId, songId);
+    	
+    }
+    
+    //GET /playlist/{playlistID}/songs
+    @GetMapping("playlist/{playlistId}/songs")
+    private List<Songs> getPlaylistDetails(@PathVariable("playlistId") int playlistId) {
+    	return playlistService.getPlaylistDetailsById(playlistId);
+    }
+    
+    
+    //delete  /playlist/
+    @DeleteMapping ("/playlist/{playlistId}/song/{songId}")
+    private void deleteSongFromPlaylist(@PathVariable("playlistId") int playlistId, @PathVariable("songId") int songId) {
+    	playlistService.deleteSongFromPlaylist(playlistId, songId);
     }
     
     
