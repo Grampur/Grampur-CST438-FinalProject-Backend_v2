@@ -1,4 +1,4 @@
-package com.javatpoint.springbootcrudoperation; // Adjust the package name accordingly
+package com.javatpoint.finalProject;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +66,7 @@ public class SongsControllerTest {
         song.setSongid(songId);
         song.setSongname("Test_Name");
         song.setSongartist("Test_Artist");
-        song.setSongduration(300); // Duration in seconds, for example 5 minutes
+        song.setSongduration(300);
 
         when(songsService.getSongsById(songId)).thenReturn(song);
 
