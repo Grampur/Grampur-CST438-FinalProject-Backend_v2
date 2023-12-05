@@ -15,12 +15,12 @@ import java.util.List;
 @Table
 public class Playlist {
 
+	@Column
+    private int userId;
+	
     @Id
     @Column
     private int playlistId;
-
-    @Column
-    private int userId;
 
     @Column
     private String playlistName;
