@@ -3,6 +3,7 @@ package com.javatpoint.finalProject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javatpoint.finalProject.controller.PlaylistController;
 import com.javatpoint.finalProject.model.Playlist;
+import com.javatpoint.finalProject.model.Songs;
 import com.javatpoint.finalProject.service.PlaylistService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,19 +40,58 @@ public class PlaylistControllerTest {
     private ObjectMapper objectMapper;
 
     private List<Playlist> playlistList;
+    private Playlist playlist1;
+    private Songs song;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Playlist playlist1 = new Playlist();
+        playlist1 = new Playlist();
         playlist1.setPlaylistId(1);
         playlist1.setPlaylistName("Chill Beats");
 
         Playlist playlist2 = new Playlist();
         playlist2.setPlaylistId(2);
         playlist2.setPlaylistName("Workout Hits");
+        
+        song = new Songs();
+        song.setSongid(1);
+        song.setSongname("Song Title");
 
         playlistList = Arrays.asList(playlist1, playlist2);
+    }
+    
+    
+    @Test
+    public void addSongToPlaylistTest() throws Exception {
+        when(playlistService.addingSongtoPlaylist(playlist1.getPlaylistId(), song.getSongid())).thenReturn(playlist1);
+
+        mockMvc.perform(post("/playlist/{playlistId}/song/{songId}", playlist1.getPlaylistId(), song.getSongid()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.playlistId", is(playlist1.getPlaylistId())))
+                .andExpect(jsonPath("$.playlistName", is("Chill Beats")));
+    }
+
+    @Test
+    public void getPlaylistDetailsTest() throws Exception {
+        List<Songs> songsList = Arrays.asList(song);
+        when(playlistService.getPlaylistDetailsById(playlist1.getPlaylistId())).thenReturn(songsList);
+
+        mockMvc.perform(get("/playlist/{playlistId}/songs", playlist1.getPlaylistId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].songid", is(song.getSongid())))
+                .andExpect(jsonPath("$[0].songname", is("Song Title")));
+    }
+
+    @Test
+    public void deleteSongFromPlaylistTest() throws Exception {
+        doNothing().when(playlistService).deleteSongFromPlaylist(playlist1.getPlaylistId(), song.getSongid());
+
+        mockMvc.perform(delete("/playlist/{playlistId}/song/{songId}", playlist1.getPlaylistId(), song.getSongid()))
+                .andExpect(status().isOk());
+
+        verify(playlistService, times(1)).deleteSongFromPlaylist(playlist1.getPlaylistId(), song.getSongid());
     }
 
     @Test
