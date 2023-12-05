@@ -1,33 +1,43 @@
 
 package com.javatpoint.finalProject.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.javatpoint.finalProject.model.Playlist;
+import com.javatpoint.finalProject.repository.PlaylistRepository;
 import com.javatpoint.finalProject.service.PlaylistService;
 
+@CrossOrigin
 @RestController
 public class PlaylistController {
 
     @Autowired
     PlaylistService playlistService;
 
+    @Autowired
+    PlaylistRepository playlistRepository;
+    
     @GetMapping("/playlist")
     private List<Playlist> getAllPlaylists() {
         return playlistService.getAllPlaylists();
     }
 
-    @GetMapping("/playlist/{playlistId}")
+    // Ray recommended to instead call from the playlistRepository directly and then write the function
+    // there
+    @GetMapping("/playlist/playlistId/{playlistId}")
     private Playlist getPlaylist(@PathVariable("playlistId") int playlistId) {
-        return playlistService.getPlaylistById(playlistId);
+        return playlistRepository.findById(playlistId);
+    }
+    
+    // Added by Haider
+    @GetMapping("/playlist/userId/{user_id}")
+    private List<Playlist> getPlaylistByUser(@PathVariable("user_id") int user_id){
+    	List<Playlist> userPlayLists = new ArrayList<Playlist>();
+    	userPlayLists = playlistRepository.findAllByUserId(user_id);
+    	return userPlayLists;
     }
 
     @DeleteMapping("/playlist/{playlistId}")
@@ -46,9 +56,6 @@ public class PlaylistController {
         playlistService.saveOrUpdate(playlist);
         return playlist;
     }
-    
-    
-    
 }
 
 

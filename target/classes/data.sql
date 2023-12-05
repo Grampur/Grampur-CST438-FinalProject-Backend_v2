@@ -1,0 +1,1 @@
+INSERT INTO Playlist(user_id, playlist_id, playlist_name, playlist_size) values(1, 1, 'test', 1);
