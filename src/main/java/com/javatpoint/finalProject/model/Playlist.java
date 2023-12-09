@@ -16,20 +16,20 @@ import java.util.List;
 public class Playlist {
 
 	@Column
-    private int userId;
+    private int userid;
 	
     @Id
     @Column
-    private int playlistId;
+    private int playlistid;
 
     @Column
-    private String playlistName;
+    private String playlistname;
 
     @Column
-    private int playlistSize;
+    private int playlistsize;
     
     @OneToMany
-    @CollectionTable(name = "playlist_details", joinColumns = @JoinColumn(name = "playlistId"))
+    @CollectionTable(name = "Playlist_details", joinColumns = @JoinColumn(name = "playlistid"))
     private List<Songs> songs;
     
     public void addSong(Songs song) {
@@ -45,34 +45,34 @@ public class Playlist {
     }
     
     public int getPlaylistId() {
-        return playlistId;
+        return playlistid;
     }
 
     public void setPlaylistId(int playlistId) {
-        this.playlistId = playlistId;
+        this.playlistid = playlistId;
     }
 
     public int getUserId() {
-        return userId;
+        return userid;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.userid = userId;
     }
 
     public String getPlaylistName() {
-        return playlistName;
+        return playlistname;
     }
 
     public void setPlaylistName(String playlistName) {
-        this.playlistName = playlistName;
+        this.playlistname = playlistName;
     }
 
     public int getPlaylistSize() {
-        return playlistSize;
+        return playlistsize;
     }
 
     public void setPlaylistSize(int playlistSize) {
-        this.playlistSize = playlistSize;
+        this.playlistsize = playlistSize;
     }
 }
