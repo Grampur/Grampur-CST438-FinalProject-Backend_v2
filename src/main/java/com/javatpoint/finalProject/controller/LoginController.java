@@ -1,9 +1,10 @@
 package com.javatpoint.finalProject.controller;
 
+import com.javatpoint.finalProject.repository.AccountCredentials;
+import com.javatpoint.finalProject.service.JwtService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,35 +14,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.javatpoint.finalProject.repository.AccountCredentials;
-import com.javatpoint.finalProject.service.JwtService;
 
 @RestController
 public class LoginController {
-	@Autowired
-	private JwtService jwtService;
+    @Autowired
+    private JwtService jwtService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
 
-	@Autowired	
-	AuthenticationManager authenticationManager;
+    @RequestMapping(value = "/api/login", method = RequestMethod.POST)
+    public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials) {
+        UsernamePasswordAuthenticationToken creds =
+                new UsernamePasswordAuthenticationToken(
+                        credentials.username(),
+                        credentials.password());
 
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials) {
-		UsernamePasswordAuthenticationToken creds =
-				new UsernamePasswordAuthenticationToken(
-						credentials.username(),
-						credentials.password());
+        Authentication auth = authenticationManager.authenticate(creds);
 
-		Authentication auth = authenticationManager.authenticate(creds);
+        // Generate token
+        String jwts = jwtService.getToken(auth.getName());
 
-		// Generate token
-		String jwts = jwtService.getToken(auth.getName());
+        // Build response with the generated token
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
+                .build();
 
-		// Build response with the generated token
-		return ResponseEntity.ok()
-				.header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
-				.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
-				.build();
-
-	}
+    }
 }

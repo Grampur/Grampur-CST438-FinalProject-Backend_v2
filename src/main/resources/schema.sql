@@ -1,12 +1,13 @@
-CREATE TABLE user_table (
+CREATE TABLE IF NOT EXISTS user_table (
 
     userid identity PRIMARY KEY,
-    username VARCHAR(255),
-    email VARCHAR(255) UNIQUE
+    username VARCHAR(255) UNIQUE,
+    email VARCHAR(255) UNIQUE,
     password varchar(100),
     role     varchar(25) DEFAULT NULL
 
 );
+
 -- -- Song Table
 -- CREATE TABLE Songs (
 --     songid INT PRIMARY KEY,
