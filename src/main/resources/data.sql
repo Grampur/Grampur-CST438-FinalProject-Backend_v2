@@ -1,6 +1,9 @@
--- -- dummy data for User table
--- INSERT INTO UserDetail (userid, name, email) VALUES (1, 'John Doe', 'john.doe@example.com');
--- INSERT INTO UserDetail (userid, name, email) VALUES (2, 'Jane Smith', 'jane.smith@example.com');
+
+insert into user_table
+(alias, email, password, role) values 
+('user', 'user@csumb.edu', '$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue','USER'),
+('admin', 'admin@csumb.edu', '$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW' , 'ADMIN');
+
 
 -- dummy data for Song table
 INSERT INTO Songs (songid, songname, songartist, songduration) VALUES (1, 'Imagine', 'John Lennon', 187);

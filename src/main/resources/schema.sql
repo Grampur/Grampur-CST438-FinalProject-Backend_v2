@@ -1,7 +1,11 @@
-CREATE TABLE UserDetail (
-    userId INT PRIMARY KEY,
-    name VARCHAR(255),
+CREATE TABLE user_table (
+
+    userid identity PRIMARY KEY,
+    username VARCHAR(255),
     email VARCHAR(255) UNIQUE
+    password varchar(100),
+    role     varchar(25) DEFAULT NULL
+
 );
 -- -- Song Table
 -- CREATE TABLE Songs (
