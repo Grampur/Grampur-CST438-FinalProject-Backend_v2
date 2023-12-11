@@ -77,4 +77,9 @@ public class PlaylistService {
     }
     
     
+    public List<Playlist> findByUserId(String userid) {
+        return playlistRepository.findByUserid(userid);
+    }
+    
+    
 }
